@@ -1,0 +1,50 @@
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+import { UserProfileEntity } from '../user-profile/user-profile.entity';
+import { AppBaseEntity } from 'src/config/database/model';
+import { UserStatus } from './user.model';
+
+@Entity('User')
+export class UserEntity implements AppBaseEntity {
+  @PrimaryGeneratedColumn('uuid', { name: 'UserUUID' })
+  uuid: string;
+
+  @Column({ name: 'Email', type: 'text', nullable: false })
+  email: string;
+
+  @OneToOne(() => UserProfileEntity, (userProfile) => userProfile.uuid, {
+    eager: true,
+    nullable: false,
+    onDelete: 'NO ACTION',
+  })
+  @JoinColumn({ name: 'UserProfileUUID' })
+  profile: UserProfileEntity;
+
+  @Column({
+    name: 'UserStatus',
+    type: 'simple-enum',
+    nullable: false,
+    enum: UserStatus,
+    default: UserStatus.ENABLED,
+  })
+  status: UserStatus;
+
+  @UpdateDateColumn({ name: 'UpdatedAt', nullable: false })
+  updatedAt: Date;
+
+  @CreateDateColumn({ name: 'CreatedAt', nullable: false })
+  createdAt: Date;
+
+  // @TODO: define shared public user profile type
+  get userProfile() {
+    return this.profile;
+  }
+}
