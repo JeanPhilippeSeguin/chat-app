@@ -17,13 +17,24 @@ export class UserEntity implements AppBaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'UserUUID' })
   uuid: string;
 
-  @Column({ name: 'Email', type: 'text', nullable: false })
+  @Column({ name: 'Email', type: 'varchar', unique: true, nullable: false })
   email: string;
 
-  @OneToOne(() => UserProfileEntity, (userProfile) => userProfile.uuid, {
+  @Column({
+    name: 'ProviderID',
+    type: 'varchar',
+    unique: true,
+    nullable: false,
+    length: 50,
+  })
+  providerId: string;
+
+  @OneToOne(() => UserProfileEntity, {
     eager: true,
     nullable: false,
-    onDelete: 'NO ACTION',
+    onDelete: 'CASCADE',
+    cascade: ['insert', 'update', 'remove'],
+    orphanedRowAction: 'delete',
   })
   @JoinColumn({ name: 'UserProfileUUID' })
   profile: UserProfileEntity;
@@ -44,7 +55,7 @@ export class UserEntity implements AppBaseEntity {
   createdAt: Date;
 
   // @TODO: define shared public user profile type
-  get userProfile() {
+  get userPublicProfile() {
     return this.profile;
   }
 }

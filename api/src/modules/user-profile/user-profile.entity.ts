@@ -13,10 +13,15 @@ export class UserProfileEntity implements AppBaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'UserProfileUUID' })
   uuid: string;
 
-  @Column({ name: 'Username', type: 'text', nullable: true, length: 50 })
-  username: string;
+  @Column({ name: 'Username', type: 'varchar', nullable: true, length: 50 })
+  username?: string;
 
-  @Column({ name: 'ProfilePicture', nullable: true, length: 100 })
+  @Column({
+    name: 'ProfilePicture',
+    type: 'varchar',
+    nullable: true,
+    length: 100,
+  })
   picture?: string;
 
   @UpdateDateColumn({ name: 'UpdatedAt', nullable: false })

@@ -1,5 +1,5 @@
 // Standard entity template to ensure default columns are set
-export class AppBaseEntity {
+export interface AppBaseEntity {
   uuid: string;
   updatedAt: Date;
   createdAt: Date;
