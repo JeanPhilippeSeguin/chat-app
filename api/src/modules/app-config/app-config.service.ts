@@ -9,19 +9,19 @@ import {
 
 @Injectable()
 export class AppConfigService {
-  constructor(private readonly configService: ConfigService<AppConfig>) {}
+  constructor(private readonly configService: ConfigService<AppConfig, true>) {}
 
   get databaseConfig(): AppDatabaseConfig {
-    return this.configService.get('database');
+    return this.configService.get<AppDatabaseConfig>('database');
   }
 
   get googleAuthConfig(): AppAuthConfig {
-    return this.configService.get('auth');
+    return this.configService.get<AppAuthConfig>('auth');
   }
 
-  public get<T>(configKey: keyof AppConfig): T {
+  public get<T>(configKey: keyof AppConfig): T | undefined {
     if (!configKey) {
-      return null;
+      return;
     }
 
     return this.configService.get<T>(configKey);
