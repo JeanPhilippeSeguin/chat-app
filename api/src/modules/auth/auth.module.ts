@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [AppConfigModule, AppConfigModule, UserModule],
+  imports: [AppConfigModule, UserModule],
   controllers: [AuthController],
   providers: [GoogleStrategy, AppAuthGuard, SessionSerializer, AuthService],
 })

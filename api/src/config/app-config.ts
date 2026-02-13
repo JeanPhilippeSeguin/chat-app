@@ -27,7 +27,7 @@ const getAppEnvironment = (env: string): AppEnvironment => {
   );
 
   if (!environment) {
-    return AppEnvironment.LOCAL;
+    return AppEnvironment.PRODUCTION;
   }
 
   return environment;
@@ -62,7 +62,7 @@ const appConfig: () => AppConfig = () => {
       username: env.POSTGRES_USER,
       password: env.POSTGRES_PASSWORD,
       database: env.POSTGRES_DB,
-      synchronize: true,
+      synchronize: env.ENVIRONMENT === AppEnvironment.LOCAL,
     },
     auth: {
       clientID: env.GOOGLE_CLIENT_ID,

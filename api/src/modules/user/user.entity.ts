@@ -29,11 +29,12 @@ export class UserEntity implements AppBaseEntity {
   })
   providerId: string;
 
-  @OneToOne(() => UserProfileEntity, (userProfile) => userProfile.uuid, {
+  @OneToOne(() => UserProfileEntity, {
     eager: true,
     nullable: false,
-    onDelete: 'NO ACTION',
-    cascade: ['insert'],
+    onDelete: 'CASCADE',
+    cascade: ['insert', 'update', 'remove'],
+    orphanedRowAction: 'delete',
   })
   @JoinColumn({ name: 'UserProfileUUID' })
   profile: UserProfileEntity;
