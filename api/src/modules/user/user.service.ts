@@ -14,7 +14,9 @@ export class UserService {
     private readonly userProfileService: UserProfileService,
   ) {}
 
-  public async findActiveUserByUserUUID(userUUID: string): Promise<UserEntity> {
+  public async findActiveUserByUserUUID(
+    userUUID: string,
+  ): Promise<UserEntity | undefined | null> {
     if (!userUUID) {
       return;
     }
@@ -27,7 +29,9 @@ export class UserService {
     });
   }
 
-  public async findUserByProviderID(providerId: string): Promise<UserEntity> {
+  public async findUserByProviderID(
+    providerId: string,
+  ): Promise<UserEntity | undefined | null> {
     if (!providerId) {
       return;
     }
@@ -39,7 +43,9 @@ export class UserService {
     });
   }
 
-  public async findUserByEmail(userEmail: string): Promise<UserEntity> {
+  public async findUserByEmail(
+    userEmail: string,
+  ): Promise<UserEntity | undefined | null> {
     if (!userEmail) {
       return;
     }
@@ -51,7 +57,9 @@ export class UserService {
     });
   }
 
-  public async findActiveUserByEmail(userEmail: string): Promise<UserEntity> {
+  public async findActiveUserByEmail(
+    userEmail: string,
+  ): Promise<UserEntity | undefined | null> {
     if (!userEmail) {
       return;
     }
@@ -67,7 +75,7 @@ export class UserService {
   public async createUser(
     providerId: string,
     userEmail: string,
-  ): Promise<UserEntity> {
+  ): Promise<UserEntity | undefined> {
     if (!providerId || !userEmail) {
       return;
     }

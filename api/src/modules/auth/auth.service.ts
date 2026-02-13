@@ -13,7 +13,7 @@ export class AuthService {
   async authenticateUser(
     providerId: string,
     userEmail: string,
-  ): Promise<UserEntity> {
+  ): Promise<UserEntity | null> {
     try {
       if (!providerId || !userEmail) {
         throw new Error('authenticate_user_invalid_or_missing_arguments');
