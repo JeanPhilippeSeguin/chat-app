@@ -22,7 +22,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     _accessToken: string,
     _refreshToken: string,
     profile: Profile,
-  ): Promise<UserEntity | null> {
+  ): Promise<UserEntity | undefined> {
     try {
       const userEmail = profile?.emails?.[0];
 
@@ -41,7 +41,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       return user;
     } catch (exception) {
       this.logger.error(exception);
-      return null;
+      return;
     }
   }
 }

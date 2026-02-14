@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Equal, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -8,6 +8,8 @@ import { UserProfileService } from '../user-profile/user-profile.service';
 
 @Injectable()
 export class UserService {
+  private readonly logger: Logger = new Logger(UserService.name);
+
   constructor(
     @InjectRepository(UserEntity)
     private readonly repository: Repository<UserEntity>,
@@ -72,7 +74,29 @@ export class UserService {
     });
   }
 
-  public async createUser(
+  public async createNewUser(
+    providerId: string,
+    userEmail: string,
+  ): Promise<UserEntity | undefined> {
+    try {
+      if (!providerId || !userEmail) {
+        throw new Error('create_new_user_invalid_or_missing_arguments');
+      }
+
+      const userEmailAlreadyTaken = await this.findUserByEmail(userEmail);
+
+      if (userEmailAlreadyTaken) {
+        throw new Error('create_new_user_user_email_already_exists');
+      }
+
+      return await this.createUser(providerId, userEmail);
+    } catch (exception) {
+      this.logger.error(exception);
+      return;
+    }
+  }
+
+  private async createUser(
     providerId: string,
     userEmail: string,
   ): Promise<UserEntity | undefined> {

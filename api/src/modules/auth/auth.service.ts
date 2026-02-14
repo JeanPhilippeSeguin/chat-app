@@ -13,7 +13,7 @@ export class AuthService {
   async authenticateUser(
     providerId: string,
     userEmail: string,
-  ): Promise<UserEntity | null> {
+  ): Promise<UserEntity | undefined> {
     try {
       if (!providerId || !userEmail) {
         throw new Error('authenticate_user_invalid_or_missing_arguments');
@@ -31,7 +31,8 @@ export class AuthService {
       }
 
       this.logger.log('User not found :: creating user');
-      user = await this.userService.createUser(providerId, userEmail);
+
+      user = await this.userService.createNewUser(providerId, userEmail);
 
       if (!user?.uuid) {
         throw new Error('authenticate_user_failed_to_create_user');
@@ -40,7 +41,7 @@ export class AuthService {
       return user;
     } catch (exception) {
       this.logger.error(exception);
-      return null;
+      return;
     }
   }
 }
