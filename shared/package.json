@@ -1,0 +1,21 @@
+{
+  "name": "@chat-app/shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esnext/index.js",
+  "license": "UNLICENSED",
+  "types": "./src/index.ts",
+  "author": "Jean-Philippe Seguin",
+  "scripts": {
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esnext": "tsc -p tsconfig.esnext.json",
+    "build": "rimraf dist && npm run build:cjs && npm run build:esnext"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "rimraf": "^6.1.2"
+  }
+}
