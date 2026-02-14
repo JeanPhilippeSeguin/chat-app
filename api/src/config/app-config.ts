@@ -63,6 +63,9 @@ const appConfig: () => AppConfig = () => {
       password: env.POSTGRES_PASSWORD,
       database: env.POSTGRES_DB,
       synchronize: env.ENVIRONMENT === AppEnvironment.LOCAL,
+      invalidWhereValuesBehavior: {
+        undefined: 'throw',
+      },
     },
     auth: {
       clientID: env.GOOGLE_CLIENT_ID,
