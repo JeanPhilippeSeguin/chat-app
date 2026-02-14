@@ -1,0 +1,13 @@
+.git
+.DS_Store
+.env
+.npmrc
+.gitignore
+.gitkeep
+.dockerignore
+docs
+node_modules
+Dockerfile
+*.md
+*.log
+

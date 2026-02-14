@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, Path } from '@nestjs/config';
 
 import {
   AppAuthConfig,
   AppConfig,
   AppDatabaseConfig,
+  AppRedisConfig,
 } from 'src/config/app-config';
 
 @Injectable()
@@ -19,11 +20,15 @@ export class AppConfigService {
     return this.configService.get<AppAuthConfig>('auth');
   }
 
-  public get<T>(configKey: keyof AppConfig): T | undefined {
+  get redisConfig(): AppRedisConfig {
+    return this.configService.get<AppRedisConfig>('redis');
+  }
+
+  public get<T>(configKey: Path<AppConfig>): T | undefined {
     if (!configKey) {
       return;
     }
 
-    return this.configService.get<T>(configKey);
+    return this.configService.get(configKey, { infer: true });
   }
 }

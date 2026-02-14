@@ -5,7 +5,13 @@ import appConfig from 'src/config/app-config';
 import { AppConfigService } from './app-config.service';
 
 @Module({
-  imports: [ConfigModule.forRoot({ load: [appConfig], isGlobal: true })],
+  imports: [
+    ConfigModule.forRoot({
+      load: [appConfig],
+      isGlobal: true,
+      skipProcessEnv: true,
+    }),
+  ],
   providers: [AppConfigService],
   exports: [AppConfigService],
 })
