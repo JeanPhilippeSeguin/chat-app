@@ -21,7 +21,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     _accessToken: string,
     _refreshToken: string,
     profile: Profile,
-  ): Promise<string | undefined> {
+  ): Promise<string> {
     try {
       const userEmail = profile?.emails?.[0];
 

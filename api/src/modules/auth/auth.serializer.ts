@@ -12,14 +12,14 @@ export class SessionSerializer extends PassportSerializer {
     super();
   }
 
-  public serializeUser(
+  serializeUser(
     userUUID: string,
     cb: PassportSerializerCallback<string>,
   ): void {
     return cb(null, userUUID);
   }
 
-  public async deserializeUser(
+  async deserializeUser(
     userUUID: string,
     cb: PassportSerializerCallback<UserEntity>,
   ): Promise<void> {
