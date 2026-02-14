@@ -10,6 +10,11 @@ async function bootstrap() {
 
   const appConfigService = app.get(AppConfigService);
 
+  app.enableCors({
+    origin: appConfigService.get('webappUrl'),
+    credentials: true,
+  });
+
   app.setGlobalPrefix('api');
 
   app.use(session(appConfigService.get<session.SessionOptions>('session')));

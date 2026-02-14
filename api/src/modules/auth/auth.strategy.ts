@@ -1,11 +1,10 @@
 import { isEmail } from 'class-validator';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-google-oauth20';
 
 import { AppConfigService } from '../app-config/app-config.service';
 import { AuthService } from './auth.service';
-import { UserEntity } from '../user/user.entity';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
@@ -22,7 +21,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     _accessToken: string,
     _refreshToken: string,
     profile: Profile,
-  ): Promise<UserEntity | undefined> {
+  ): Promise<string | undefined> {
     try {
       const userEmail = profile?.emails?.[0];
 
@@ -38,10 +37,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       if (!user?.uuid) {
         throw new Error('validate_invalid_user');
       }
-      return user;
+
+      // The return value of the validate function will be passed to the PassportSerializer.serializeUser
+      return user.uuid;
     } catch (exception) {
       this.logger.error(exception);
-      return;
+      throw new UnauthorizedException();
     }
   }
 }

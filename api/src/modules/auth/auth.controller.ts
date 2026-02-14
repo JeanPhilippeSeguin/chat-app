@@ -1,11 +1,11 @@
 import { Controller, Get, HttpCode, Res, UseGuards } from '@nestjs/common';
 import type { Response } from 'express';
 
-import { AppAuthGuard } from './auth.guard';
+import { GoogleAuthGuard } from './auth.guard';
 import { AppConfigService } from '../app-config/app-config.service';
 
 @Controller('auth/google')
-@UseGuards(AppAuthGuard)
+@UseGuards(GoogleAuthGuard)
 export class AuthController {
   constructor(private readonly appConfigService: AppConfigService) {}
 
