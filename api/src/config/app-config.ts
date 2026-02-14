@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { CookieOptions, SessionOptions } from 'express-session';
 import { StrategyOptions } from 'passport-google-oauth20';
 import { DataSourceOptions } from 'typeorm';
+import { RedisClientOptions } from '@keyv/redis';
 
 export enum AppEnvironment {
   LOCAL = 'local',
@@ -15,11 +16,16 @@ export type AppConfig = {
   database: AppDatabaseConfig;
   auth: AppAuthConfig;
   session: SessionOptions;
+  redis: AppRedisConfig;
 };
 
 export type AppAuthConfig = StrategyOptions;
 
 export type AppDatabaseConfig = DataSourceOptions;
+
+export type AppRedisConfig = RedisClientOptions & {
+  namespace: string;
+};
 
 const getSessionCookieOptions = (
   environment: AppEnvironment,
@@ -29,7 +35,7 @@ const getSessionCookieOptions = (
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
-    maxAge: 1000 * 60 * 60 * 24, // 1 day
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 1 month
     domain,
   };
 
@@ -60,6 +66,12 @@ const envSchema = z.object({
 
   SESSION_SECRET: z.string().min(32),
   SESSION_COOKIE_DOMAIN: z.string(),
+
+  REDIS_HOST: z.string(),
+  REDIS_PORT: z.string(),
+  REDIS_USER: z.string(),
+  REDIS_PASSWORD: z.string().min(32),
+  REDIS_NAMESPACE: z.string(),
 });
 
 const appConfig: () => AppConfig = () => {
@@ -90,10 +102,17 @@ const appConfig: () => AppConfig = () => {
       secret: env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
+      rolling: true,
       cookie: getSessionCookieOptions(
         env.ENVIRONMENT,
         env.SESSION_COOKIE_DOMAIN,
       ),
+    },
+    redis: {
+      url: `redis://${env.REDIS_HOST}:${env.REDIS_PORT}`,
+      password: env.REDIS_PASSWORD,
+      username: env.REDIS_USER,
+      namespace: env.REDIS_NAMESPACE,
     },
   };
 };

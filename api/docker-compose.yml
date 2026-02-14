@@ -1,4 +1,21 @@
 services:
+  redis:
+    image: redis:8.6.0
+    ports:
+      - 6379:6379
+    command:
+      - redis-server
+      - --user
+      - ${REDIS_USER}
+      - on
+      - '>${REDIS_PASSWORD}'
+      - allcommands
+      - allkeys
+      - --user
+      - default
+      - off
+    volumes:
+      - ./redis:/data
   db:
     image: postgres:18.2
     restart: always

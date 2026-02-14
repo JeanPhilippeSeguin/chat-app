@@ -2,6 +2,7 @@ import passport from 'passport';
 import session from 'express-session';
 import { NestFactory } from '@nestjs/core';
 
+import { AppSessionService } from './modules/app-session/app-session.service';
 import { AppConfigService } from './modules/app-config/app-config.service';
 import { AppModule } from './app.module';
 
@@ -17,7 +18,16 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  app.use(session(appConfigService.get<session.SessionOptions>('session')));
+  const sessionOptions =
+    appConfigService.get<session.SessionOptions>('session');
+
+  const { namespace, ...config } = appConfigService.redisConfig;
+
+  if (sessionOptions) {
+    sessionOptions.store = await AppSessionService.startSessionStore(config);
+  }
+
+  app.use(session(sessionOptions));
 
   app.use(passport.initialize());
   app.use(passport.session());
