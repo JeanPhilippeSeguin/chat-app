@@ -17,7 +17,7 @@ export class UserService {
   ) {}
 
   public async findActiveUserByUserUUID(
-    userUUID: string,
+    userUUID?: string,
   ): Promise<UserEntity | undefined | null> {
     if (!userUUID) {
       return;

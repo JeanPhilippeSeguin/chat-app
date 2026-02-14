@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { SessionOptions } from 'express-session';
+import { CookieOptions, SessionOptions } from 'express-session';
 import { StrategyOptions } from 'passport-google-oauth20';
 import { DataSourceOptions } from 'typeorm';
 
@@ -21,16 +21,27 @@ export type AppAuthConfig = StrategyOptions;
 
 export type AppDatabaseConfig = DataSourceOptions;
 
-const getAppEnvironment = (env: string): AppEnvironment => {
-  const environment = Object.values(AppEnvironment).find(
-    (appEnvironment) => appEnvironment === env,
-  );
+const getSessionCookieOptions = (
+  environment: AppEnvironment,
+  domain: string,
+): CookieOptions => {
+  let cookieOptions: CookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
+    domain,
+  };
 
-  if (!environment) {
-    return AppEnvironment.PRODUCTION;
+  if (environment === AppEnvironment.LOCAL) {
+    cookieOptions = {
+      ...cookieOptions,
+      secure: false,
+      sameSite: 'lax',
+    };
   }
 
-  return environment;
+  return cookieOptions;
 };
 
 const envSchema = z.object({
@@ -48,12 +59,13 @@ const envSchema = z.object({
   GOOGLE_REDIRECT_ENDPOINT: z.string(),
 
   SESSION_SECRET: z.string().min(32),
+  SESSION_COOKIE_DOMAIN: z.string(),
 });
 
 const appConfig: () => AppConfig = () => {
   const env = envSchema.parse(process.env);
   return {
-    environment: getAppEnvironment(env.ENVIRONMENT),
+    environment: env.ENVIRONMENT,
     apiUrl: env.APP_API_URL,
     webappUrl: env.APP_WEBAPP_URL,
     database: {
@@ -78,6 +90,10 @@ const appConfig: () => AppConfig = () => {
       secret: env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
+      cookie: getSessionCookieOptions(
+        env.ENVIRONMENT,
+        env.SESSION_COOKIE_DOMAIN,
+      ),
     },
   };
 };

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { AppAuthGuard } from './auth.guard';
+import { AppAuthGuard, GoogleAuthGuard } from './auth.guard';
 import { AuthController } from './auth.controller';
 import { AppConfigModule } from '../app-config/app-config.module';
 import { SessionSerializer } from './auth.serializer';
@@ -11,6 +11,12 @@ import { UserModule } from '../user/user.module';
 @Module({
   imports: [AppConfigModule, UserModule],
   controllers: [AuthController],
-  providers: [GoogleStrategy, AppAuthGuard, SessionSerializer, AuthService],
+  providers: [
+    GoogleStrategy,
+    GoogleAuthGuard,
+    AppAuthGuard,
+    SessionSerializer,
+    AuthService,
+  ],
 })
 export class AuthModule {}
