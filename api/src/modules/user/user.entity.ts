@@ -2,12 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
+import { PublicUserProfile } from '@chat-app/shared';
 import { UserProfileEntity } from '../user-profile/user-profile.entity';
 import { AppBaseEntity } from 'src/config/database/model';
 import { UserStatus } from './user.model';
@@ -29,14 +29,11 @@ export class UserEntity implements AppBaseEntity {
   })
   providerId: string;
 
-  @OneToOne(() => UserProfileEntity, {
+  @OneToOne(() => UserProfileEntity, (profile) => profile.user, {
     eager: true,
+    cascade: true,
     nullable: false,
-    onDelete: 'CASCADE',
-    cascade: ['insert', 'update', 'remove'],
-    orphanedRowAction: 'delete',
   })
-  @JoinColumn({ name: 'UserProfileUUID' })
   profile: UserProfileEntity;
 
   @Column({
@@ -54,8 +51,11 @@ export class UserEntity implements AppBaseEntity {
   @CreateDateColumn({ name: 'CreatedAt', nullable: false })
   createdAt: Date;
 
-  // @TODO: define shared public user profile type
-  get userPublicProfile() {
-    return this.profile;
+  get userPublicProfile(): PublicUserProfile {
+    return {
+      id: this.uuid,
+      username: this.profile.username,
+      picture: this.profile.picture,
+    };
   }
 }

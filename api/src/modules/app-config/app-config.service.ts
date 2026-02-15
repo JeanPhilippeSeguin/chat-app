@@ -24,11 +24,7 @@ export class AppConfigService {
     return this.configService.get<AppRedisConfig>('redis');
   }
 
-  public get<T>(configKey: Path<AppConfig>): T | undefined {
-    if (!configKey) {
-      return;
-    }
-
+  public get<T>(configKey: Path<AppConfig>): T {
     return this.configService.get(configKey, { infer: true });
   }
 }

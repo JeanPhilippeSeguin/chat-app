@@ -15,7 +15,7 @@ export type AppConfig = {
   webappUrl: string;
   database: AppDatabaseConfig;
   auth: AppAuthConfig;
-  session: SessionOptions;
+  session: AppSessionConfig;
   redis: AppRedisConfig;
 };
 
@@ -26,6 +26,8 @@ export type AppDatabaseConfig = DataSourceOptions;
 export type AppRedisConfig = RedisClientOptions & {
   namespace: string;
 };
+
+export type AppSessionConfig = SessionOptions;
 
 const getSessionCookieOptions = (
   environment: AppEnvironment,

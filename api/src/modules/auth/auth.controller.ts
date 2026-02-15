@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, Res, UseGuards } from '@nestjs/common';
-import type { Response } from 'express';
+import type { CookieOptions, Response } from 'express';
 
 import { GoogleAuthGuard } from './auth.guard';
 import { AppConfigService } from '../app-config/app-config.service';
@@ -16,6 +16,14 @@ export class AuthController {
   @Get('redirect')
   authenticateUser(@Res() response: Response) {
     const redirectUrl = this.appConfigService.get<string>('webappUrl');
+
+    const cookieOptions =
+      this.appConfigService.get<CookieOptions>('session.cookie');
+
+    response.cookie('isAuthenticated', 'true', {
+      ...cookieOptions,
+      httpOnly: false,
+    });
 
     if (!redirectUrl) {
       return response.redirect('/');
