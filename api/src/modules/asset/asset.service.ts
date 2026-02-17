@@ -30,10 +30,6 @@ export class AssetService {
     try {
       const key = await this.generateCryptoKeyPromise;
 
-      if (!key) {
-        throw new Error('get_image_signed_url_failed_generate_signing_key');
-      }
-
       const url = new URL(this.buildAssetDeliveryUrl(imageID));
 
       const expiry = Math.floor(Date.now() / 1000) + expiration;
