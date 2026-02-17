@@ -5,7 +5,7 @@ import { createClient } from 'redis';
 
 @Injectable()
 export class AppSessionService {
-  private static readonly APP_SESSION_PREFIX: string = 'chatAppSession:';
+  private static readonly APP_SESSION_PREFIX: string = 'chatApp:session:';
 
   static async startSessionStore(
     connectOptions: RedisClientOptions,
