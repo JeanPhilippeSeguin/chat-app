@@ -1,1 +1,9 @@
+.DashboardLayout {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(12, 1fr);
 
+  .DashboardUserSidebar {
+    grid-column: 1 / span 3;
+  }
+}

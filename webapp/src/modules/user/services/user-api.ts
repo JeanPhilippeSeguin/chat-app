@@ -5,13 +5,12 @@ const baseUrl = "user";
 
 const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCurrentUser: builder.mutation<PublicUserProfile, void>({
+    getCurrentUser: builder.query<PublicUserProfile, void>({
       query: () => ({
         url: `${baseUrl}/me`,
-        method: "GET",
       }),
     }),
   }),
 });
 
-export const { useGetCurrentUserMutation } = userApi;
+export const { useGetCurrentUserQuery } = userApi;

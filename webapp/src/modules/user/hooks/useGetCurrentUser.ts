@@ -1,10 +1,12 @@
-import { useSelector } from "react-redux";
+import { skipToken } from "@reduxjs/toolkit/query";
 
-import type { PublicUserProfile } from "@chat-app/shared";
-import { selectUserProfile } from "@modules/user/redux/user-selector";
+import { useIsAuthenticated } from "@modules/auth/hooks/useIsAuthenticated";
+import { useGetCurrentUserQuery } from "../services/user-api";
 
-const useGetCurrentUser = (): PublicUserProfile | null => {
-  return useSelector(selectUserProfile);
+const useGetCurrentUser = () => {
+  const isAuthenticated = useIsAuthenticated();
+
+  return useGetCurrentUserQuery(isAuthenticated ? undefined : skipToken);
 };
 
 export default useGetCurrentUser;
