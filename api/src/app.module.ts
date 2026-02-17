@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { AppCacheModule } from './modules/app-cache/app-cache.module';
 import { AppSessionModule } from './modules/app-session/app-session.module';
+import { AssetModule } from './modules/asset/asset.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AppSessionModule } from './modules/app-session/app-session.module';
     AppDatabaseModule,
     AppCacheModule,
     AppSessionModule,
+    AssetModule,
     AuthModule,
     UserProfileModule,
     UserModule,

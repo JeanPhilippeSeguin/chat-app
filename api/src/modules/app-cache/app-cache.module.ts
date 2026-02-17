@@ -3,7 +3,6 @@ import { Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
 
 import { AppConfigService } from '../app-config/app-config.service';
-import { AppCacheService } from './app-cache.service';
 import { AppConfigModule } from '../app-config/app-config.module';
 
 @Module({
@@ -11,6 +10,7 @@ import { AppConfigModule } from '../app-config/app-config.module';
     AppConfigModule,
     CacheModule.registerAsync({
       imports: [AppConfigModule],
+      isGlobal: true,
       useFactory: (appConfigService: AppConfigService) => {
         const { namespace, ...config } = structuredClone(
           appConfigService.redisConfig,
@@ -23,7 +23,7 @@ import { AppConfigModule } from '../app-config/app-config.module';
       inject: [AppConfigService],
     }),
   ],
-  providers: [AppCacheService],
-  exports: [AppCacheService],
+  providers: [],
+  exports: [],
 })
 export class AppCacheModule {}

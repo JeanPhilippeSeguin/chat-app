@@ -17,6 +17,7 @@ export type AppConfig = {
   auth: AppAuthConfig;
   session: AppSessionConfig;
   redis: AppRedisConfig;
+  asset: AppAssetConfig;
 };
 
 export type AppAuthConfig = StrategyOptions;
@@ -25,6 +26,13 @@ export type AppDatabaseConfig = DataSourceOptions;
 
 export type AppRedisConfig = RedisClientOptions & {
   namespace: string;
+};
+
+export type AppAssetConfig = {
+  cloudflareCdnAccountId: string;
+  cloudflareCdnAccountHash: string;
+  cloudflareCdnApiKey: string;
+  cloudflareCdnUrl: string;
 };
 
 export type AppSessionConfig = SessionOptions;
@@ -74,6 +82,11 @@ const envSchema = z.object({
   REDIS_USER: z.string(),
   REDIS_PASSWORD: z.string().min(32),
   REDIS_NAMESPACE: z.string(),
+
+  CLOUDFLARE_CDN_ACCOUNT_ID: z.string(),
+  CLOUDFLARE_CDN_ACCOUNT_HASH: z.string(),
+  CLOUDFLARE_CDN_API_KEY: z.string(),
+  CLOUDFLARE_IMAGE_DELIVERY_URL: z.url(),
 });
 
 const appConfig: () => AppConfig = () => {
@@ -115,6 +128,12 @@ const appConfig: () => AppConfig = () => {
       password: env.REDIS_PASSWORD,
       username: env.REDIS_USER,
       namespace: env.REDIS_NAMESPACE,
+    },
+    asset: {
+      cloudflareCdnAccountId: env.CLOUDFLARE_CDN_ACCOUNT_ID,
+      cloudflareCdnAccountHash: env.CLOUDFLARE_CDN_ACCOUNT_HASH,
+      cloudflareCdnApiKey: env.CLOUDFLARE_CDN_API_KEY,
+      cloudflareCdnUrl: env.CLOUDFLARE_IMAGE_DELIVERY_URL,
     },
   };
 };
