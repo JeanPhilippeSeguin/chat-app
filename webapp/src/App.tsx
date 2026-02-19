@@ -1,12 +1,22 @@
+import { ConfigProvider } from "antd";
 import { RouterProvider } from "react-router";
 
 import router from "@router/AppRouter";
-import useGetCurrentUser from "@modules/user/hooks/useGetCurrentUser";
 
 function App() {
-  const { data: user, isLoading } = useGetCurrentUser();
-
-  return isLoading ? <div>loading...</div> : <RouterProvider router={router} />;
+  return (
+    <ConfigProvider
+      theme={{
+        token: {
+          fontFamily: "var(--font-family)",
+          colorBgContainer: "transparent",
+          colorText: "var(--app--color)",
+        },
+      }}
+    >
+      <RouterProvider router={router} />
+    </ConfigProvider>
+  );
 }
 
 export default App;

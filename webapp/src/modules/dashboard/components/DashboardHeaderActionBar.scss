@@ -1,0 +1,32 @@
+.DashboardHeaderActionBar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.DashboardHeaderActionBar__separator {
+  border-radius: 5px;
+  width: 1px;
+  height: 70%;
+  margin: 0 8px;
+  background-color: var(
+    --dashboardHeaderActionBar--separator--background-color
+  );
+}
+
+.DashboardHeaderActionBar__settings {
+  padding: 8px;
+  color: var(--dashboardHeaderActionBar--settings--color);
+}
+
+.DashboardHeaderActionBar__avatar {
+  height: 100%;
+  margin-left: 4px;
+  border-radius: 12px;
+  user-select: none;
+
+  .AppImage__skeleton {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+}

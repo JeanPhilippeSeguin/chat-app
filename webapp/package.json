@@ -12,7 +12,9 @@
   "dependencies": {
     "@chat-app/shared": "file:../shared",
     "@reduxjs/toolkit": "^2.11.2",
+    "antd": "^6.3.0",
     "dayjs": "^1.11.19",
+    "lucide-react": "^0.574.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-redux": "^9.2.0",

@@ -1,0 +1,10 @@
+.ServerChannelList {
+  padding: 12px;
+  overflow-y: auto;
+  flex-grow: 1;
+  .ChannelList {
+    &:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }
+}

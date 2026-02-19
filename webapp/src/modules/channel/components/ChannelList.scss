@@ -1,0 +1,17 @@
+.ChannelList__header {
+  color: var(--channelList--header--color);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 8px;
+
+  svg {
+    fill: var(--channelList--header--color);
+
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+}
+
+.ChannelList__empty {
+  font-size: var(--font-size-xs);
+}

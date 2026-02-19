@@ -1,9 +1,21 @@
 .DashboardLayout {
   display: grid;
   height: 100%;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar main";
 
-  .DashboardUserSidebar {
-    grid-column: 1 / span 3;
+  .DashboardHeader {
+    grid-area: header;
   }
+
+  .DashboardSidebar {
+    grid-area: sidebar;
+  }
+}
+
+.DashboardLayout__main {
+  grid-area: main;
 }

@@ -1,0 +1,18 @@
+.ChannelListItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background-color: var(--dashboardHeader--background-color);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  vertical-align: middle;
+  font-weight: var(--font-weight-semibold);
+
+  svg {
+    padding: 8px;
+    background-color: #5b8def25;
+    border-radius: 12px;
+    color: #5b8def;
+  }
+}

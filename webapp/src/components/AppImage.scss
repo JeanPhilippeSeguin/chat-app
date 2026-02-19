@@ -1,0 +1,17 @@
+.AppImage {
+  display: block;
+  overflow: hidden;
+
+  &--isLoading {
+    .AppImage__image {
+      height: 0;
+      width: 0;
+    }
+  }
+}
+
+.AppImage__image {
+  display: block;
+  height: 100%;
+  width: 100%;
+}

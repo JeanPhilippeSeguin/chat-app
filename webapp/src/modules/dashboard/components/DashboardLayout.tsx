@@ -1,19 +1,37 @@
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import { Suspense } from "react";
+import { useParams } from "react-router";
 
 import "./DashboardLayout.scss";
-import useGetCurrentUser from "@modules/user/hooks/useGetCurrentUser";
-import DashboardUserSidebar from "./DashboardUserSidebar";
+import DashboardHeader from "./DashboardHeader";
+import DashboardSidebar from "./DashboardSidebar";
+import { useGetUserServerListQuery } from "@modules/server/services/server-api";
 
 const DashboardLayout = () => {
-  const { data: user } = useGetCurrentUser();
+  const navigate = useNavigate();
+  const { serverId } = useParams();
+
+  const { data: servers } = useGetUserServerListQuery();
+
+  const onServerChangeHandler = (serverId: string) => {
+    navigate(`server/${serverId}`);
+  };
+
+  const activeServer = servers?.find((server) => server.id === serverId);
 
   return (
     <div className="DashboardLayout">
-      <DashboardUserSidebar />
-      <Suspense>
-        <Outlet />
-      </Suspense>
+      <DashboardHeader server={activeServer} />
+      <DashboardSidebar
+        servers={servers || []}
+        activeServerId={serverId}
+        onServerChangeHandler={onServerChangeHandler}
+      />
+      <div className="DashboardLayout__main">
+        <Suspense>
+          <Outlet />
+        </Suspense>
+      </div>
     </div>
   );
 };

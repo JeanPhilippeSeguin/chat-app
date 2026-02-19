@@ -1,0 +1,14 @@
+.ServerListItem {
+  cursor: pointer;
+  width: 50px;
+  border-radius: 12px;
+  overflow: hidden;
+
+  &--isActive {
+    outline: 2px solid red;
+  }
+}
+
+.ServerListItem__picture {
+  height: 100%;
+}

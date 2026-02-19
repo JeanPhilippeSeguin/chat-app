@@ -10,6 +10,9 @@ html {
   font-size: 14px;
   font-family: var(--font-family);
   line-height: 1.2;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
@@ -19,4 +22,5 @@ html {
   flex-direction: column;
   overflow-x: hidden;
   background-color: var(--app--background-color);
+  color: var(--app--color);
 }

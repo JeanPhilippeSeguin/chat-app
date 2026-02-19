@@ -1,4 +1,29 @@
 :root {
-  --app--background-color: #15191c;
-  --app--color: #fff;
+  --app--background-color: #141a1f;
+  --app--color: #f4f7f5;
+
+  // AppSkeleton
+  --appSkeleton--gradient--from--color: #0b1014;
+  --appSkeleton--gradient--to--color: #141a1f;
+
+  /* Dashboard */
+  // DashboardSidebar
+  --dashboardSidebar--border-color: rgba(255, 255, 255, 0.05);
+  --dashboardSidebar--background-color: #0b1014;
+  --dashboardSidebar--header--server--online--color: #6b7480;
+
+  // DashboardHeader
+  --dashboardHeader--background-color: #0b1014;
+  --dashboardHeader--border-color: #191d20;
+  --dashboardHeader--search--color: #9ba3af;
+  --dashboardHeader--search--backdrop--color: #191d20;
+  --dashboardHeader--search--hover--background-color: #191d20;
+  --dashboardHeader--search--hover-color: #f4f7f5;
+
+  // DashboardHeaderActionBar
+  --dashboardHeaderActionBar--settings--color: #9ba3af;
+  --dashboardHeaderActionBar--separator--background-color: #141a1f;
+
+  /* Channel */
+  --channelList--header--color: #9ba3af;
 }

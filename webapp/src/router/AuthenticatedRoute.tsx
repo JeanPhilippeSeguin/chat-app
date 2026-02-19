@@ -3,9 +3,9 @@ import { Navigate, Outlet } from "react-router";
 import useGetCurrentUser from "@modules/user/hooks/useGetCurrentUser";
 
 const AuthenticatedRoute = () => {
-  const currentUser = useGetCurrentUser();
+  const { data: currentUser, isLoading } = useGetCurrentUser();
 
-  if (!currentUser) {
+  if (!currentUser && !isLoading) {
     return <Navigate to="/" />;
   }
 
