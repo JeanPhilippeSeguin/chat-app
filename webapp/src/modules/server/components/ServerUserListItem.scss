@@ -1,0 +1,12 @@
+.ServerUserListItem {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-xs);
+}
+
+.ServerUserListItem__picture {
+  height: 35px;
+  border-radius: 12px;
+  margin-right: 12px;
+  user-select: none;
+}

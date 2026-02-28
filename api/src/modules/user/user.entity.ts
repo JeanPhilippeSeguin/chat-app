@@ -2,12 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { UserProfileEntity } from '../user-profile/user-profile.entity';
+import { ServerUserEntity } from '../server-user/server-user.entity';
 import { AppBaseEntity } from 'src/config/database/model';
 import { UserStatus } from './user.model';
 
@@ -34,6 +36,12 @@ export class UserEntity implements AppBaseEntity {
     nullable: false,
   })
   profile: UserProfileEntity;
+
+  @OneToMany(() => ServerUserEntity, (serverUser) => serverUser.user, {
+    eager: false,
+    cascade: false,
+  })
+  servers: ServerUserEntity[];
 
   @Column({
     name: 'UserStatus',

@@ -10,6 +10,9 @@ import { UserModule } from './modules/user/user.module';
 import { AppCacheModule } from './modules/app-cache/app-cache.module';
 import { AppSessionModule } from './modules/app-session/app-session.module';
 import { AssetModule } from './modules/asset/asset.module';
+import { ServerModule } from './modules/server/server.module';
+import { ServerUserModule } from './modules/server-user/server-user.module';
+import { ChannelModule } from './modules/channel/channel.module';
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { AssetModule } from './modules/asset/asset.module';
     AppSessionModule,
     AssetModule,
     AuthModule,
+    ServerModule,
+    ChannelModule,
+    ServerUserModule,
     UserProfileModule,
     UserModule,
   ],
