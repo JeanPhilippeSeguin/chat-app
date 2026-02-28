@@ -3,8 +3,8 @@
   --app--color: #f4f7f5;
 
   // AppSkeleton
-  --appSkeleton--gradient--from--color: #0b1014;
-  --appSkeleton--gradient--to--color: #141a1f;
+  --appSkeleton--gradient--from--color: #141a1f;
+  --appSkeleton--gradient--to--color: #0b1014;
 
   /* Dashboard */
   // DashboardSidebar
@@ -24,6 +24,6 @@
   --dashboardHeaderActionBar--settings--color: #9ba3af;
   --dashboardHeaderActionBar--separator--background-color: #141a1f;
 
-  /* Channel */
-  --channelList--header--color: #9ba3af;
+  /* ServerChannelList */
+  --serverChannelList--channelList--header--color: #9ba3af;
 }

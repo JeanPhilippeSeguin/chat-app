@@ -2,7 +2,7 @@
   display: grid;
   height: 100%;
   grid-template-rows: 60px 1fr;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 75px 1fr;
   grid-template-areas:
     "header header"
     "sidebar main";

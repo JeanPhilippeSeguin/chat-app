@@ -1,6 +1,6 @@
 .ServerListItem {
   cursor: pointer;
-  width: 50px;
+  width: 100%;
   border-radius: 12px;
   overflow: hidden;
 
@@ -11,4 +11,5 @@
 
 .ServerListItem__picture {
   height: 100%;
+  user-select: none;
 }

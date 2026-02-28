@@ -1,10 +1,10 @@
-import { AudioLines, Command } from "lucide-react";
+import { useNavigate } from "react-router";
+import { AudioLines } from "lucide-react";
 
 import "./DashboardHeader.scss";
 import type { PublicServerProfile } from "@chat-app/shared";
 import DashboardHeaderActionBar from "./DashboardHeaderActionBar";
 import useGetCurrentUser from "@modules/user/hooks/useGetCurrentUser";
-import AppTextInput from "@components/AppTextInput";
 import AppImage from "@components/AppImage";
 
 type Props = {
@@ -12,11 +12,14 @@ type Props = {
 };
 
 const DashboardHeader = ({ server }: Props) => {
+  const navigate = useNavigate();
+
   const { data: user, isLoading } = useGetCurrentUser();
 
   return (
     <div className="DashboardHeader">
-      <AudioLines />
+      <AudioLines onClick={() => navigate("/")} />
+
       {server?.id && (
         <div className="DashboardHeader__server">
           <AppImage src={server.picture} />
@@ -25,15 +28,6 @@ const DashboardHeader = ({ server }: Props) => {
       )}
 
       <div className="DashboardHeader__actionBar">
-        <AppTextInput
-          className="DashboardHeader__search"
-          placeholder="Search"
-          prefix={
-            <Command className="DashboardHeader__search__prefix" size={16} />
-          }
-          suffix={<span className="DashboardHeader__search__suffix">⌘K</span>}
-        />
-
         <DashboardHeaderActionBar user={user} isLoading={isLoading} />
       </div>
     </div>

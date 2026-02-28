@@ -2,8 +2,39 @@
   padding: 12px;
   overflow-y: auto;
   flex-grow: 1;
+  height: 100%;
+
   .ChannelList {
     &:not(:last-child) {
+      margin-bottom: 16px;
+    }
+
+    .ant-skeleton.AppSkeleton {
+      height: 20px;
+    }
+  }
+
+  .ChannelListHeader {
+    color: var(--serverChannelList--channelList--header--color);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: 8px;
+
+    svg {
+      fill: var(--serverChannelList--channelList--header--color);
+
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+  }
+
+  &--isLoading {
+    .ChannelList {
+      display: grid;
+      grid-template-rows: auto 50px;
+    }
+
+    .AppSkeleton {
       margin-bottom: 16px;
     }
   }

@@ -1,34 +1,27 @@
+import { useNavigate, useParams } from "react-router";
+
 import "./DashboardSidebar.scss";
-import type { PublicServerProfileList } from "@chat-app/shared";
 import ServerList from "@modules/server/components/ServerList";
-import ServerListItem from "@modules/server/components/ServerListItem";
+import { useGetUserServerListQuery } from "@modules/server/services/server-api";
 
-interface Props {
-  servers: PublicServerProfileList;
-  activeServerId?: string;
-  onServerChangeHandler: (serverId: string) => void;
-}
+const DashboardSidebar = () => {
+  const navigate = useNavigate();
+  const { serverId } = useParams();
 
-const DashboardSidebar = ({
-  servers,
-  activeServerId,
-  onServerChangeHandler,
-}: Props) => {
+  const { data: servers, isLoading } = useGetUserServerListQuery();
+
   const onServerListItemClickHandler = (serverId: string) => {
-    onServerChangeHandler(serverId);
+    navigate(`server/${serverId}`);
   };
 
   return (
     <div className="DashboardSidebar">
-      <ServerList>
-        {servers.map((server) => (
-          <ServerListItem
-            server={server}
-            onClick={onServerListItemClickHandler}
-            isActive={activeServerId === server.id}
-          />
-        ))}
-      </ServerList>
+      <ServerList
+        servers={servers || []}
+        selectedServerId={serverId}
+        isLoading={isLoading}
+        onServerClickHandler={onServerListItemClickHandler}
+      />
     </div>
   );
 };

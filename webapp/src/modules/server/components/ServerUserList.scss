@@ -1,0 +1,9 @@
+.ServerUserList {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: 35px;
+  row-gap: 12px;
+  padding: 12px;
+  border-left: 1px solid var(--dashboardSidebar--border-color);
+  background-color: var(--dashboardSidebar--background-color);
+}

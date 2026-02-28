@@ -1,4 +1,3 @@
-import { MessageSquare, Mic } from "lucide-react";
 import type { ReactNode } from "react";
 
 import "./ChannelList.scss";
@@ -8,39 +7,25 @@ type Props = {
 };
 
 const ChannelList = ({ children }: Props) => {
-  return <div className="ChannelList">{children}</div>;
-};
-
-export const VoiceChannelList = ({ children }: Props) => {
   return (
-    <ChannelList>
-      <div className="ChannelList__header">
-        <Mic size={16} />
-        VOICE CHANNELS (3)
-      </div>
-
+    <div className="ChannelList">
       {children?.length ? (
         children
       ) : (
         <div className="ChannelList__empty">No channels</div>
       )}
-    </ChannelList>
+    </div>
   );
 };
 
-export const TextChannelList = ({ children }: Props) => {
-  return (
-    <ChannelList>
-      <div className="ChannelList__header">
-        <MessageSquare size={16} />
-        TEXT CHANNELS (3)
-      </div>
-
-      {children?.length ? (
-        children
-      ) : (
-        <div className="ChannelList__empty">No channels</div>
-      )}
-    </ChannelList>
-  );
+type ChannelListHeaderProps = {
+  children: ReactNode;
 };
+
+const ChannelListHeader = ({ children }: ChannelListHeaderProps) => {
+  return <div className="ChannelListHeader">{children}</div>;
+};
+
+ChannelList.Header = ChannelListHeader;
+
+export default ChannelList;

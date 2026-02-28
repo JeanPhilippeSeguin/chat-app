@@ -3,10 +3,11 @@ import SkeletonNode, { type SkeletonNodeProps } from "antd/es/skeleton/Node";
 
 type Props = SkeletonNodeProps;
 const AppSkeleton = ({ className, ...props }: Props) => {
-  const AppSkeletonDefaultStyles = {
-    width: "100%",
-    height: "100%",
-  };
+  let classNames = "AppSkeleton";
+
+  if (className) {
+    classNames = `${classNames} ${className}`;
+  }
 
   return (
     <ConfigProvider
@@ -21,10 +22,10 @@ const AppSkeleton = ({ className, ...props }: Props) => {
     >
       <SkeletonNode
         {...props}
-        className={`AppSkeleton ${className}`}
+        className={classNames}
         styles={{
-          root: { ...AppSkeletonDefaultStyles },
-          content: { ...AppSkeletonDefaultStyles },
+          content: { width: "100%", height: "100%" },
+          root: { width: "100%", height: "100%" },
         }}
         active={true}
       />

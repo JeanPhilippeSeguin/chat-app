@@ -21,7 +21,11 @@ const ServerListItem = ({ server, isActive, onClick }: Props) => {
 
   return (
     <div className={className} onClick={onClickHandler}>
-      <AppImage className="ServerListItem__picture" src={server.picture} />
+      <AppImage
+        className="ServerListItem__picture"
+        src={server.picture}
+        draggable={false}
+      />
     </div>
   );
 };

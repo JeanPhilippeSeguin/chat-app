@@ -1,5 +1,7 @@
 .ServerList {
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: 50px;
+  row-gap: 12px;
 }
