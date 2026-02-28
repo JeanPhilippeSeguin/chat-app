@@ -7,7 +7,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { PublicServerProfile } from '@chat-app/shared';
 import { AppBaseEntity } from 'src/config/database/model';
 import { ServerUserEntity } from '../server-user/server-user.entity';
 
@@ -39,12 +38,4 @@ export class ServerEntity implements AppBaseEntity {
 
   @CreateDateColumn({ name: 'CreatedAt', nullable: false })
   createdAt: Date;
-
-  get serverPublicProfile(): PublicServerProfile {
-    return {
-      id: this.uuid,
-      name: this.name,
-      picture: this.picture,
-    };
-  }
 }

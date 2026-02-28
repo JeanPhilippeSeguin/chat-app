@@ -12,6 +12,7 @@ import { AppSessionModule } from './modules/app-session/app-session.module';
 import { AssetModule } from './modules/asset/asset.module';
 import { ServerModule } from './modules/server/server.module';
 import { ServerUserModule } from './modules/server-user/server-user.module';
+import { ChannelModule } from './modules/channel/channel.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ServerUserModule } from './modules/server-user/server-user.module';
     AssetModule,
     AuthModule,
     ServerModule,
+    ChannelModule,
     ServerUserModule,
     UserProfileModule,
     UserModule,
