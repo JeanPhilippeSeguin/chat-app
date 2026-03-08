@@ -36,17 +36,6 @@
   input::placeholder {
     font-weight: var(--font-weight-medium);
   }
-
-  &:hover,
-  &:has(input:focus) {
-    background-color: var(--dashboardHeader--search--hover--background-color);
-
-    .ServerPage__header__search__prefix,
-    .ServerPage__header__search__suffix,
-    input::placeholder {
-      color: var(--dashboardHeader--search--hover-color);
-    }
-  }
 }
 
 .ServerPage__header__search__prefix {

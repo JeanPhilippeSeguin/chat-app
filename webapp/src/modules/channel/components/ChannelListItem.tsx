@@ -1,16 +1,24 @@
 import { HashIcon, Mic } from "lucide-react";
 
 import "./ChannelListItem.scss";
+import type { PublicChannelProfile } from "@chat-app/shared";
 
-type Props = {
-  name: string;
-  type: "voice" | "text";
-};
+interface Props extends PublicChannelProfile {
+  isActive: boolean;
+  onChannelClick: (channel: PublicChannelProfile) => void;
+}
 
-const ChannelListItem = ({ name, type }: Props) => {
+const ChannelListItem = ({ isActive, onChannelClick, ...channel }: Props) => {
+  let className = "ChannelListItem";
+
+  if (isActive) {
+    className = `${className} ChannelListItem--isActive`;
+  }
+
   return (
-    <div className="ChannelListItem">
-      {type === "voice" ? <Mic size={16} /> : <HashIcon size={16} />} {name}
+    <div className={className} onClick={() => onChannelClick(channel)}>
+      {channel.type === "voice" ? <Mic size={16} /> : <HashIcon size={16} />}{" "}
+      {channel.name}
     </div>
   );
 };

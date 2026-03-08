@@ -14,7 +14,9 @@ const AppTextInput = ({ className, ...props }: Props) => {
       theme={{
         components: {
           Input: {
-            colorTextPlaceholder: "var(--dashboardHeader--search--color)",
+            colorTextPlaceholder: "var(--appTextInput--color)",
+            activeBg: "var(--appTextInput--active--background-color)",
+            hoverBg: "var(--appTextInput--active--background-color)",
             fontSize: 14,
             paddingBlock: 6,
             paddingInline: 12,
@@ -26,8 +28,11 @@ const AppTextInput = ({ className, ...props }: Props) => {
         {...props}
         className={classNames}
         type="text"
-        variant="borderless"
-        styles={{ prefix: { marginRight: 8 }, suffix: { marginLeft: 8 } }}
+        styles={{
+          root: { border: "none", outline: "none", boxShadow: "none" },
+          prefix: { marginRight: 8 },
+          suffix: { marginLeft: 8 },
+        }}
       />
     </ConfigProvider>
   );

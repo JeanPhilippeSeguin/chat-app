@@ -6,6 +6,11 @@
   --appSkeleton--gradient--from--color: #141a1f;
   --appSkeleton--gradient--to--color: #0b1014;
 
+  // AppTextInput
+  --appTextInput--color: #9ba3af;
+  --appTextInput--active--background-color: #191d20;
+  --appTextInput--active--color: #f4f7f5;
+
   /* Dashboard */
   // DashboardSidebar
   --dashboardSidebar--border-color: rgba(255, 255, 255, 0.05);
@@ -17,8 +22,6 @@
   --dashboardHeader--border-color: #191d20;
   --dashboardHeader--search--color: #9ba3af;
   --dashboardHeader--search--backdrop--color: #191d20;
-  --dashboardHeader--search--hover--background-color: #191d20;
-  --dashboardHeader--search--hover-color: #f4f7f5;
 
   // DashboardHeaderActionBar
   --dashboardHeaderActionBar--settings--color: #9ba3af;

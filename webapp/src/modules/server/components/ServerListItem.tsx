@@ -10,6 +10,10 @@ interface Props {
 
 const ServerListItem = ({ server, isActive, onClick }: Props) => {
   const onClickHandler = () => {
+    if (isActive) {
+      return;
+    }
+
     onClick(server.id);
   };
 

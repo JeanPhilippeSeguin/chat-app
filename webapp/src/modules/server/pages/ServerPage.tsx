@@ -1,17 +1,32 @@
-import { useParams } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useNavigate, useParams } from "react-router";
 import { Command } from "lucide-react";
 
 import "./ServerPage.scss";
+import { type PublicChannelProfile } from "@chat-app/shared";
 import { useGetServerDetailsQuery } from "../services/server-api";
 import ServerChannelList from "../components/ServerChannelList";
-import AppTextInput from "@components/AppTextInput";
 import ServerUserList from "../components/ServerUserList";
-import { ChannelType } from "@chat-app/shared";
+import AppTextInput from "@components/AppTextInput";
 
 const ServerPage = () => {
-  const { serverId } = useParams();
+  const navigate = useNavigate();
 
-  const { data: server, isLoading } = useGetServerDetailsQuery(serverId || "");
+  const { serverId, channelId } = useParams();
+
+  const { data: server, isLoading } = useGetServerDetailsQuery(serverId ?? "");
+
+  const onChannelClickHandler = (channel: PublicChannelProfile) => {
+    navigate(`channel/${channel.id}`);
+  };
+
+  useEffect(() => {
+    if (channelId) {
+      return;
+    }
+
+    navigate(`channel/${server?.channels[0].id}`);
+  }, [navigate, server, channelId]);
 
   return (
     <div className="ServerPage">
@@ -34,17 +49,18 @@ const ServerPage = () => {
       </div>
       <div className="ServerPage__channelList">
         <ServerChannelList
-          channels={[
-            { id: "a", type: ChannelType.VOICE, name: "working" },
-            { id: "b", type: ChannelType.TEXT, name: "general" },
-          ]}
+          channels={server?.channels ?? []}
+          selectedChannelId={channelId ?? ""}
           isLoading={isLoading}
+          onChannelClick={onChannelClickHandler}
         />
       </div>
 
       <div className="ServerPage__content">
         <div className="ServerPage__content__main">
-          <div></div>
+          <div>
+            <Outlet />
+          </div>
           <ServerUserList users={server?.users || []} isLoading={isLoading} />
         </div>
       </div>

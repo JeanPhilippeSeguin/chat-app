@@ -15,11 +15,7 @@ const serverApi = apiSlice.injectEndpoints({
     }),
     getServerDetails: builder.query<PublicServerDetails, string>({
       query: (serverId: string) => ({
-        method: "post",
-        url: `${baseUrl}/profile`,
-        body: {
-          id: serverId,
-        },
+        url: `${baseUrl}/${serverId}/details`,
       }),
     }),
   }),
