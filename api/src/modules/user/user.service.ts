@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Equal, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { UserEntity } from './user.entity';
@@ -25,8 +25,8 @@ export class UserService {
 
     return this.repository.findOne({
       where: {
-        uuid: Equal(userUUID),
-        status: Equal(UserStatus.ENABLED),
+        uuid: userUUID,
+        status: UserStatus.ENABLED,
       },
     });
   }
@@ -40,7 +40,7 @@ export class UserService {
 
     return this.repository.findOne({
       where: {
-        providerId: Equal(providerId),
+        providerId,
       },
     });
   }
@@ -54,7 +54,7 @@ export class UserService {
 
     return this.repository.findOne({
       where: {
-        email: Equal(userEmail),
+        email: userEmail,
       },
     });
   }
@@ -68,8 +68,8 @@ export class UserService {
 
     return this.repository.findOne({
       where: {
-        email: Equal(userEmail),
-        status: Equal(UserStatus.ENABLED),
+        email: userEmail,
+        status: UserStatus.ENABLED,
       },
     });
   }
