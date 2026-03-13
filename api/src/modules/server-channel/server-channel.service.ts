@@ -30,7 +30,7 @@ export class ServerChannelService {
     });
   }
 
-  async getServerChannelByChannelUUIDWithServer(
+  async getServerChannelByChannelUUIDWithServerAndChannel(
     channelUUID: string,
   ): Promise<ServerChannelEntity | undefined | null> {
     if (!channelUUID) {
@@ -45,6 +45,7 @@ export class ServerChannelService {
       },
       relations: {
         server: true,
+        channel: true,
       },
     });
   }

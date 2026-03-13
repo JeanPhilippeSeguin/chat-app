@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { subtle } from 'crypto';
+import { createHmac } from 'crypto';
 
 import { AppConfigService } from '../app-config/app-config.service';
 import { AppAssetConfig } from 'src/config/app-config';
@@ -10,11 +10,7 @@ export class AssetService {
 
   private DEFAULT_ASSET_EXPIRATION: number = 24 * 60 * 60;
 
-  private readonly generateCryptoKeyPromise: Promise<CryptoKey>;
-
-  constructor(private readonly appConfigService: AppConfigService) {
-    this.generateCryptoKeyPromise = this.getCryptoKey();
-  }
+  constructor(private readonly appConfigService: AppConfigService) {}
 
   private buildAssetDeliveryUrl(imageID: string): string {
     const { cloudflareCdnUrl, cloudflareCdnAccountHash } =
@@ -23,12 +19,14 @@ export class AssetService {
     return `${cloudflareCdnUrl}/${cloudflareCdnAccountHash}/${imageID}/public`;
   }
 
-  public async getSignedUrlFromImageID(
+  public getSignedUrlFromImageID(
     imageID: string,
     expiration = this.DEFAULT_ASSET_EXPIRATION,
-  ): Promise<string | undefined> {
+  ): string | undefined {
     try {
-      const key = await this.generateCryptoKeyPromise;
+      const cloudflareCdnApiKey = this.appConfigService.get<string>(
+        'asset.cloudflareCdnApiKey',
+      );
 
       const url = new URL(this.buildAssetDeliveryUrl(imageID));
 
@@ -36,44 +34,16 @@ export class AssetService {
 
       url.searchParams.set('exp', expiry.toString());
 
-      const signature = await subtle.sign(
-        'HMAC',
-        key,
-        new TextEncoder().encode(`${url.pathname}?${url.searchParams}`),
-      );
+      const signature = createHmac('sha256', cloudflareCdnApiKey)
+        .update(`${url.pathname}?${url.searchParams}`)
+        .digest('hex');
 
-      url.searchParams.set('sig', this.bufferToHex(signature));
+      url.searchParams.set('sig', signature);
 
       return url.toString();
     } catch (exception) {
       this.logger.error(exception);
       return;
     }
-  }
-
-  private async getCryptoKey(): Promise<CryptoKey> {
-    const cloudflareCdnApiKey = this.appConfigService.get<string>(
-      'asset.cloudflareCdnApiKey',
-    );
-
-    return subtle.importKey(
-      'raw',
-      new TextEncoder().encode(cloudflareCdnApiKey),
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign'],
-    );
-  }
-
-  private bufferToHex(buffer: ArrayBuffer): string {
-    const bytes = new Uint8Array(buffer);
-
-    let hex = '';
-
-    for (const byte of bytes) {
-      hex += byte.toString(16).padStart(2, '0');
-    }
-
-    return hex;
   }
 }

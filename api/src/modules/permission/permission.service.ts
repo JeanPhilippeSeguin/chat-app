@@ -40,7 +40,7 @@ export class PermissionService {
   ): Promise<boolean> {
     try {
       const channel =
-        await this.serverChannelService.getServerChannelByChannelUUIDWithServer(
+        await this.serverChannelService.getServerChannelByChannelUUIDWithServerAndChannel(
           channelUUID,
         );
 

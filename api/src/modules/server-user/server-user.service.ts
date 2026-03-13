@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ServerUserEntity } from './server-user.entity';
-import { ServerEntity } from '../server/server.entity';
 import { UserStatus } from '../user/user.model';
 import { ServerUserMembershipStatus } from './server-user.model';
 
@@ -15,19 +14,6 @@ export class ServerUserService {
     @InjectRepository(ServerUserEntity)
     private readonly repository: Repository<ServerUserEntity>,
   ) {}
-
-  // TODO: move
-  async getUserServers(userUUID: string): Promise<ServerEntity[]> {
-    try {
-      const userServers =
-        await this.getServerUserListByUserUUIDWithServer(userUUID);
-
-      return userServers.map((userServer) => userServer.server);
-    } catch (exception) {
-      this.logger.error(exception);
-      return [];
-    }
-  }
 
   async getServerUserByUserUUIDAndServerUUID(
     userUUID: string,
