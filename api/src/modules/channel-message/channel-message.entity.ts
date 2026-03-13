@@ -27,7 +27,7 @@ export class ChannelMessageEntity implements AppBaseEntity {
 
   @OneToOne(() => MessageEntity, (messageEntity) => messageEntity.channel, {
     nullable: false,
-    cascade: false,
+    cascade: ['insert'],
     eager: false,
   })
   @JoinColumn({ name: 'MessageUUID' })
