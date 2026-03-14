@@ -58,7 +58,11 @@ export class ChannelMessageService {
 
       return channelMessages.map(({ message }) => ({
         id: message.uuid,
-        content: message.content,
+        content: this.messageService.decryptMessage(
+          Buffer.from(message.iv, 'hex'),
+          Buffer.from(message.tag, 'hex'),
+          Buffer.from(message.content, 'hex'),
+        ),
         author: this.userProfileService.getUserPublicProfile(
           message.author.user,
         ),
@@ -101,7 +105,11 @@ export class ChannelMessageService {
         throw new Error('create_channel_message_failed_to_get_server_user');
       }
 
-      const message = this.messageService.createMessage(body.content);
+      const { iv, tag, cipherText } = this.messageService.encryptMessage(
+        body.content,
+      );
+
+      const message = this.messageService.createMessage(iv, tag, cipherText);
 
       message.author = serverUser;
 

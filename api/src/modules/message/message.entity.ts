@@ -44,6 +44,12 @@ export class MessageEntity implements AppBaseEntity {
   @Column({ name: 'Content', type: 'varchar', nullable: false, length: 255 })
   content: string;
 
+  @Column({ name: 'IV', type: 'varchar', nullable: false, length: 24 })
+  iv: string;
+
+  @Column({ name: 'Tag', type: 'varchar', nullable: false, length: 32 })
+  tag: string;
+
   @UpdateDateColumn({ name: 'UpdatedAt' })
   updatedAt: Date;
 
