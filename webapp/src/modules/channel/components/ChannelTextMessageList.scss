@@ -1,5 +1,10 @@
 .ChannelTextMessageList {
   display: grid;
   grid-auto-rows: max-content;
-  flex-grow: 1;
+  padding-bottom: 30px;
+  overflow-y: hidden;
+
+  &:hover {
+    overflow-y: auto;
+  }
 }

@@ -33,7 +33,7 @@ const ServerChannelList = ({
       <ChannelList>
         <ChannelList.Header>
           <Mic size={16} />
-          VOICE CHANNELS (3)
+          VOICE CHANNELS ({voiceChannels?.length ?? 0})
         </ChannelList.Header>
         <ServerChannelListCurrentState
           channels={voiceChannels}
@@ -46,7 +46,7 @@ const ServerChannelList = ({
       <ChannelList>
         <ChannelList.Header>
           <MessageSquare size={16} />
-          TEXT CHANNELS (3)
+          TEXT CHANNELS ({textChannels?.length ?? 0})
         </ChannelList.Header>
 
         <ServerChannelListCurrentState

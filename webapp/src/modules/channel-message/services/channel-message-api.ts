@@ -7,10 +7,25 @@ const channelMessageApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getChannelMessageList: builder.query<PublicMessageProfile[], string>({
       query: (channelId) => ({
-        url: `${baseUrl}/${channelId}/list`,
+        url: `${baseUrl}/${channelId}`,
+      }),
+    }),
+    createChannelMessage: builder.mutation<
+      boolean,
+      { channelId: string; content: string }
+    >({
+      query: ({ channelId, content }) => ({
+        method: "post",
+        url: `${baseUrl}/${channelId}`,
+        body: {
+          content,
+        },
       }),
     }),
   }),
 });
 
-export const { useGetChannelMessageListQuery } = channelMessageApi;
+export const {
+  useGetChannelMessageListQuery,
+  useCreateChannelMessageMutation,
+} = channelMessageApi;

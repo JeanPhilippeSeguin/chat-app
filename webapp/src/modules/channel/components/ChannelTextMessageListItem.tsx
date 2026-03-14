@@ -1,5 +1,6 @@
 import "./ChannelTextMessageListItem.scss";
 import type { PublicMessageProfile } from "@chat-app/shared";
+import AppImage from "@components/AppImage";
 import useGetCurrentUser from "@modules/user/hooks/useGetCurrentUser";
 
 type Props = PublicMessageProfile;
@@ -10,15 +11,24 @@ const ChannelTextMessageListItem = ({ content, author }: Props) => {
   let className = "ChannelTextMessageListItem";
 
   if (author.id === currentUser?.id) {
-    className = "ChannelTextMessageListItem--authored";
+    className = `${className} ChannelTextMessageListItem--authored`;
   }
 
   return (
     <div className={className}>
-      <div className="ChannelTextMessageListItem__author">
-        {author.username} said:
+      <AppImage
+        className="ChannelTextMessageListItem__author__picture"
+        src={author.picture}
+        draggable="false"
+      />
+      <div className="ChannelTextMessageListItem__content">
+        <div className="ChannelTextMessageListItem__content__author">
+          {author.username} said:
+        </div>
+        <div className="ChannelTextMessageListItem__content__value">
+          {content}
+        </div>
       </div>
-      <div className="ChannelTextMessageListItem__value">{content}</div>
     </div>
   );
 };

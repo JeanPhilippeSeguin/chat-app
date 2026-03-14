@@ -7,7 +7,7 @@ import { type PublicChannelProfile } from "@chat-app/shared";
 import { useGetServerDetailsQuery } from "../services/server-api";
 import ServerChannelList from "../components/ServerChannelList";
 import ServerUserList from "../components/ServerUserList";
-import AppTextInput from "@components/AppTextInput";
+import { AppTextInput } from "@components/AppTextInput";
 
 const ServerPage = () => {
   const navigate = useNavigate();
@@ -58,9 +58,7 @@ const ServerPage = () => {
 
       <div className="ServerPage__content">
         <div className="ServerPage__content__main">
-          <div>
-            <Outlet />
-          </div>
+          <Outlet />
           <ServerUserList users={server?.users || []} isLoading={isLoading} />
         </div>
       </div>
