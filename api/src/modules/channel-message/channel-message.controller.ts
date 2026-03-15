@@ -40,7 +40,7 @@ export class ChannelMessageController {
   @Post()
   async createChannelMessage(
     @Req() request: Request,
-    @Param('channelUUID') channelUUID: string,
+    @Param('channelUUID', new ParseUUIDPipe()) channelUUID: string,
     @Body() body: CreateChannelMessageDto,
   ): Promise<boolean> {
     try {
