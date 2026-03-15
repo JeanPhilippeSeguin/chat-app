@@ -1,6 +1,7 @@
 import passport from 'passport';
 import session from 'express-session';
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 
 import { AppSessionService } from './modules/app-session/app-session.service';
 import { AppConfigService } from './modules/app-config/app-config.service';
@@ -8,6 +9,8 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const appConfigService = app.get(AppConfigService);
 

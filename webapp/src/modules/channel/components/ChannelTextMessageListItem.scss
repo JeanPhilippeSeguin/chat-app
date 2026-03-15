@@ -1,0 +1,38 @@
+.ChannelTextMessageListItem {
+  word-break: break-all;
+  display: flex;
+  line-height: 1.4;
+  padding: 10px;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.ChannelTextMessageListItem__author__picture {
+  display: block;
+  flex-shrink: 0;
+  margin-right: 10px;
+  height: 40px;
+  width: 40px;
+  user-select: none;
+
+  .AppImage__image {
+    border-radius: 8px;
+  }
+
+  span {
+    vertical-align: middle;
+  }
+}
+
+.ChannelTextMessageListItem__content__author {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ChannelTextMessageListItem__content__value {
+  font-size: var(--font-size-md);
+  max-width: 500px;
+}

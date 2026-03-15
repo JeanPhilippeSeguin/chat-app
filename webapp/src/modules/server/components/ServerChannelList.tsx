@@ -6,12 +6,19 @@ import type { PublicChannelProfile } from "@chat-app/shared";
 import ChannelListItem from "@modules/channel/components/ChannelListItem";
 import AppSkeleton from "@components/AppSkeleton";
 
-type Props = {
+interface Props {
   channels: PublicChannelProfile[];
   isLoading: boolean;
-};
+  selectedChannelId: string;
+  onChannelClick: (channel: PublicChannelProfile) => void;
+}
 
-const ServerChannelList = ({ channels, isLoading }: Props) => {
+const ServerChannelList = ({
+  channels,
+  isLoading,
+  selectedChannelId,
+  onChannelClick,
+}: Props) => {
   const voiceChannels = channels.filter((channel) => channel.type === "voice");
   const textChannels = channels.filter((channel) => channel.type === "text");
 
@@ -26,23 +33,27 @@ const ServerChannelList = ({ channels, isLoading }: Props) => {
       <ChannelList>
         <ChannelList.Header>
           <Mic size={16} />
-          VOICE CHANNELS (3)
+          VOICE CHANNELS ({voiceChannels?.length ?? 0})
         </ChannelList.Header>
         <ServerChannelListCurrentState
           channels={voiceChannels}
           isLoading={isLoading}
+          selectedChannelId={selectedChannelId}
+          onChannelClick={onChannelClick}
         />
       </ChannelList>
 
       <ChannelList>
         <ChannelList.Header>
           <MessageSquare size={16} />
-          TEXT CHANNELS (3)
+          TEXT CHANNELS ({textChannels?.length ?? 0})
         </ChannelList.Header>
 
         <ServerChannelListCurrentState
           channels={textChannels}
           isLoading={isLoading}
+          selectedChannelId={selectedChannelId}
+          onChannelClick={onChannelClick}
         />
       </ChannelList>
     </div>
@@ -52,16 +63,20 @@ const ServerChannelList = ({ channels, isLoading }: Props) => {
 const ServerChannelListCurrentState = ({
   channels,
   isLoading,
-}: {
-  channels: PublicChannelProfile[];
-  isLoading: boolean;
-}) => {
+  selectedChannelId,
+  onChannelClick,
+}: Props) => {
   if (isLoading) {
     return <AppSkeleton />;
   }
 
   return channels.map((channel) => (
-    <ChannelListItem key={channel.id} {...channel} />
+    <ChannelListItem
+      key={channel.id}
+      {...channel}
+      isActive={selectedChannelId === channel.id}
+      onChannelClick={onChannelClick}
+    />
   ));
 };
 

@@ -15,4 +15,8 @@
     border-radius: 12px;
     color: #5b8def;
   }
+
+  &--isActive {
+    border-color: red;
+  }
 }

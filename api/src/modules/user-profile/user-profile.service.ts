@@ -35,9 +35,7 @@ export class UserProfileService {
     });
   }
 
-  public async getUserPublicProfile(
-    user: UserEntity,
-  ): Promise<PublicUserProfile> {
+  public getUserPublicProfile(user: UserEntity): PublicUserProfile {
     if (!user?.profile?.picture || !user?.profile?.username) {
       throw new Error('get_user_public_profile_missing_profile');
     }
@@ -46,9 +44,7 @@ export class UserProfileService {
       id: user.uuid,
       username: user.profile.username,
       picture:
-        (await this.assetService.getSignedUrlFromImageID(
-          user.profile.picture,
-        )) || '',
+        this.assetService.getSignedUrlFromImageID(user.profile.picture) ?? '',
     };
   }
 }

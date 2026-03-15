@@ -1,5 +1,4 @@
 import { Outlet } from "react-router";
-import { Suspense } from "react";
 import { useParams } from "react-router";
 
 import "./DashboardLayout.scss";
@@ -19,9 +18,7 @@ const DashboardLayout = () => {
       <DashboardHeader server={activeServer} />
       <DashboardSidebar />
       <div className="DashboardLayout__main">
-        <Suspense>
-          <Outlet />
-        </Suspense>
+        <Outlet />
       </div>
     </div>
   );

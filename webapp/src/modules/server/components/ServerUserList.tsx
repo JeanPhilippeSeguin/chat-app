@@ -21,7 +21,7 @@ const ServerUserList = ({ users, isLoading }: Props) => {
         </>
       )}
       {users?.length > 0 &&
-        users.map((user) => <ServerUserListItem user={user} />)}
+        users.map((user) => <ServerUserListItem key={user.id} user={user} />)}
     </div>
   );
 };

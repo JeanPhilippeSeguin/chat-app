@@ -1,28 +1,31 @@
 :root {
-  --app--background-color: #141a1f;
-  --app--color: #f4f7f5;
+  --app--background-color: #15191c;
+  --app--color: #e8eaed;
 
   // AppSkeleton
-  --appSkeleton--gradient--from--color: #141a1f;
-  --appSkeleton--gradient--to--color: #0b1014;
+  --appSkeleton--gradient--from--color: #15191c;
+  --appSkeleton--gradient--to--color: #0d1114;
+
+  // AppTextInput
+  --appTextInput--color: #9ba3af;
+  --appTextInput--active--background-color: #1a1f24;
+  --appTextInput--active--color: #e8eaed;
 
   /* Dashboard */
   // DashboardSidebar
   --dashboardSidebar--border-color: rgba(255, 255, 255, 0.05);
-  --dashboardSidebar--background-color: #0b1014;
+  --dashboardSidebar--background-color: #0d1114;
   --dashboardSidebar--header--server--online--color: #6b7480;
 
   // DashboardHeader
-  --dashboardHeader--background-color: #0b1014;
+  --dashboardHeader--background-color: #0d1114;
   --dashboardHeader--border-color: #191d20;
   --dashboardHeader--search--color: #9ba3af;
   --dashboardHeader--search--backdrop--color: #191d20;
-  --dashboardHeader--search--hover--background-color: #191d20;
-  --dashboardHeader--search--hover-color: #f4f7f5;
 
   // DashboardHeaderActionBar
   --dashboardHeaderActionBar--settings--color: #9ba3af;
-  --dashboardHeaderActionBar--separator--background-color: #141a1f;
+  --dashboardHeaderActionBar--separator--background-color: #15191c;
 
   /* ServerChannelList */
   --serverChannelList--channelList--header--color: #9ba3af;

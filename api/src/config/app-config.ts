@@ -18,6 +18,7 @@ export type AppConfig = {
   session: AppSessionConfig;
   redis: AppRedisConfig;
   asset: AppAssetConfig;
+  messageSecretKey: string;
 };
 
 export type AppAuthConfig = StrategyOptions;
@@ -87,6 +88,8 @@ const envSchema = z.object({
   CLOUDFLARE_CDN_ACCOUNT_HASH: z.string(),
   CLOUDFLARE_CDN_API_KEY: z.string(),
   CLOUDFLARE_IMAGE_DELIVERY_URL: z.url(),
+
+  MESSAGE_SECRET_KEY: z.string().length(64),
 });
 
 const appConfig: () => AppConfig = () => {
@@ -135,6 +138,7 @@ const appConfig: () => AppConfig = () => {
       cloudflareCdnApiKey: env.CLOUDFLARE_CDN_API_KEY,
       cloudflareCdnUrl: env.CLOUDFLARE_IMAGE_DELIVERY_URL,
     },
+    messageSecretKey: env.MESSAGE_SECRET_KEY,
   };
 };
 

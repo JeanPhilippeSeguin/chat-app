@@ -13,6 +13,9 @@ import { AssetModule } from './modules/asset/asset.module';
 import { ServerModule } from './modules/server/server.module';
 import { ServerUserModule } from './modules/server-user/server-user.module';
 import { ChannelModule } from './modules/channel/channel.module';
+import { MessageModule } from './modules/message/message.module';
+import { ServerChannelModule } from './modules/server-channel/server-channel.module';
+import { ChannelMessageModule } from './modules/channel-message/channel-message.module';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { ChannelModule } from './modules/channel/channel.module';
     AuthModule,
     ServerModule,
     ChannelModule,
+    ServerChannelModule,
+    ChannelMessageModule,
+    MessageModule,
     ServerUserModule,
     UserProfileModule,
     UserModule,

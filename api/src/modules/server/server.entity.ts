@@ -9,6 +9,7 @@ import {
 
 import { AppBaseEntity } from 'src/config/database/model';
 import { ServerUserEntity } from '../server-user/server-user.entity';
+import { ServerChannelEntity } from '../server-channel/server-channel.entity';
 
 @Entity('Server')
 export class ServerEntity implements AppBaseEntity {
@@ -29,9 +30,20 @@ export class ServerEntity implements AppBaseEntity {
   @OneToMany(() => ServerUserEntity, (serverUser) => serverUser.server, {
     eager: false,
     nullable: false,
-    cascade: ['insert'],
+    cascade: false,
   })
   users: ServerUserEntity[];
+
+  @OneToMany(
+    () => ServerChannelEntity,
+    (serverChannel) => serverChannel.server,
+    {
+      eager: false,
+      nullable: false,
+      cascade: false,
+    },
+  )
+  channels: ServerChannelEntity[];
 
   @UpdateDateColumn({ name: 'UpdatedAt', nullable: false })
   updatedAt: Date;
