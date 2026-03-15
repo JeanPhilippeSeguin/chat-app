@@ -66,7 +66,7 @@ export class ChannelMessageService {
         author: this.userProfileService.getUserPublicProfile(
           message.author.user,
         ),
-        createdAt: message.createdAt,
+        createdAt: message.createdAt.toString(),
       }));
     } catch (exception) {
       this.logger.error(exception);

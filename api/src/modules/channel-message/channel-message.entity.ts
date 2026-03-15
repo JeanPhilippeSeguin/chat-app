@@ -33,9 +33,9 @@ export class ChannelMessageEntity implements AppBaseEntity {
   @JoinColumn({ name: 'MessageUUID' })
   message: MessageEntity;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'UpdatedAt' })
   updatedAt: Date;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'CreatedAt' })
   createdAt: Date;
 }

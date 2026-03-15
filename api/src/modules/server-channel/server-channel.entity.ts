@@ -17,7 +17,7 @@ export class ServerChannelEntity implements AppBaseEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'ServerChannelUUID' })
   uuid: string;
 
-  @ManyToOne(() => ServerEntity, (server) => server.users, {
+  @ManyToOne(() => ServerEntity, (server) => server.channels, {
     onDelete: 'CASCADE',
     nullable: false,
   })

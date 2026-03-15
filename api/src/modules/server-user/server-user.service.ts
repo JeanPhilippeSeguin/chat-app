@@ -49,6 +49,7 @@ export class ServerUserService {
         user: {
           uuid: userUUID,
         },
+        membershipStatus: ServerUserMembershipStatus.ACTIVE,
       },
       relations: {
         server: true,
