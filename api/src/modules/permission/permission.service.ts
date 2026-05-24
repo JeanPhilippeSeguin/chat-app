@@ -18,7 +18,7 @@ export class PermissionService {
   ): Promise<boolean> {
     try {
       const serverUser =
-        await this.serverUserService.getServerUserByUserUUIDAndServerUUID(
+        await this.serverUserService.getServerUserByUserUUIDAndServerUUIDWithUser(
           userUUID,
           serverUUID,
         );

@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { isUUID } from 'class-validator';
 import { Request } from 'express';
+import { Socket } from 'socket.io';
 
 @Injectable()
 export class GoogleAuthGuard extends AuthGuard('google') {
@@ -20,7 +21,21 @@ export class GoogleAuthGuard extends AuthGuard('google') {
 @Injectable()
 export class AppAuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest<Request>();
-    return isUUID(request?.user?.uuid) && request.isAuthenticated();
+    let request: Request | null = null;
+    let isAuthenticated = false;
+
+    if (context.getType() === 'ws') {
+      const client = context.switchToWs().getClient<Socket>();
+      request = client.request as Request;
+
+      isAuthenticated = request && isUUID(request?.user?.uuid);
+    } else {
+      request = context.switchToHttp().getRequest<Request>();
+
+      isAuthenticated =
+        request && isUUID(request?.user?.uuid) && request.isAuthenticated();
+    }
+
+    return isAuthenticated;
   }
 }

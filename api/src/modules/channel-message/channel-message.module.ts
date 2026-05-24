@@ -9,6 +9,7 @@ import { PermissionModule } from '../permission/permission.module';
 import { MessageModule } from '../message/message.module';
 import { ServerUserModule } from '../server-user/server-user.module';
 import { ServerChannelModule } from '../server-channel/server-channel.module';
+import { ChannelMessageGateway } from './channel-message.gateway';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { ServerChannelModule } from '../server-channel/server-channel.module';
     ServerChannelModule,
   ],
   controllers: [ChannelMessageController],
-  providers: [ChannelMessageService],
+  providers: [ChannelMessageService, ChannelMessageGateway],
   exports: [ChannelMessageService],
 })
 export class ChannelMessageModule {}

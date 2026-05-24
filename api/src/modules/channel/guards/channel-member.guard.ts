@@ -1,5 +1,6 @@
 import { isUUID } from 'class-validator';
 import { Request } from 'express';
+import { Socket } from 'socket.io';
 import {
   CanActivate,
   ExecutionContext,
@@ -16,11 +17,16 @@ export class ChannelMemberGuard implements CanActivate {
   constructor(private readonly permissionService: PermissionService) {}
   async canActivate(context: ExecutionContext) {
     try {
-      const request = context.switchToHttp().getRequest<Request>();
+      let request = context.switchToHttp().getRequest<Request>();
+      let channelUUID: unknown = request.params?.channelUUID;
 
-      const channelUUID = request.params?.channelUUID;
+      if (context.getType() === 'ws') {
+        const client = context.switchToWs().getClient<Socket>();
+        request = client.request as Request;
+        channelUUID = client.handshake.query.channelUUID;
+      }
+
       const userUUID = request.user?.uuid;
-
       const isValidUserUUID = !!userUUID && isUUID(userUUID);
       const isValidChannelUUID =
         !!channelUUID && typeof channelUUID === 'string' && isUUID(channelUUID);
@@ -31,7 +37,7 @@ export class ChannelMemberGuard implements CanActivate {
 
       return await this.permissionService.isUserChannelServerMember(
         userUUID,
-        channelUUID,
+        channelUUID as string,
       );
     } catch (exception) {
       this.logger.error(exception);

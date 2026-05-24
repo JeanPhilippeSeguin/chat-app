@@ -78,7 +78,7 @@ export class ChannelMessageService {
     userUUID: string,
     channelUUID: string,
     body: CreateChannelMessageDto,
-  ): Promise<boolean> {
+  ): Promise<PublicMessageProfile | undefined> {
     try {
       const serverChannel =
         await this.serverChannelService.getServerChannelByChannelUUIDWithServerAndChannel(
@@ -96,7 +96,7 @@ export class ChannelMessageService {
       const serverUUID = serverChannel.server.uuid;
 
       const serverUser =
-        await this.serverUserService.getServerUserByUserUUIDAndServerUUID(
+        await this.serverUserService.getServerUserByUserUUIDAndServerUUIDWithUser(
           userUUID,
           serverUUID,
         );
@@ -119,11 +119,19 @@ export class ChannelMessageService {
       });
 
       const savedChannelMessage = await this.repository.save(channelMessage);
-
-      return savedChannelMessage?.uuid ? true : false;
+      return {
+        id: savedChannelMessage.message.uuid,
+        content: this.messageService.decryptMessage(
+          Buffer.from(savedChannelMessage.message.iv, 'hex'),
+          Buffer.from(savedChannelMessage.message.tag, 'hex'),
+          Buffer.from(savedChannelMessage.message.content, 'hex'),
+        ),
+        author: this.userProfileService.getUserPublicProfile(serverUser.user),
+        createdAt: savedChannelMessage.message.createdAt.toString(),
+      };
     } catch (exception) {
       this.logger.error(exception);
-      return false;
+      return;
     }
   }
 }

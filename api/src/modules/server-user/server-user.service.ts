@@ -15,7 +15,7 @@ export class ServerUserService {
     private readonly repository: Repository<ServerUserEntity>,
   ) {}
 
-  async getServerUserByUserUUIDAndServerUUID(
+  async getServerUserByUserUUIDAndServerUUIDWithUser(
     userUUID: string,
     serverUUID: string,
   ): Promise<ServerUserEntity | undefined | null> {
@@ -33,6 +33,9 @@ export class ServerUserService {
           status: UserStatus.ENABLED,
           uuid: userUUID,
         },
+      },
+      relations: {
+        user: true,
       },
     });
   }

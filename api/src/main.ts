@@ -2,9 +2,11 @@ import passport from 'passport';
 import session from 'express-session';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { RequestHandler } from '@nestjs/common/interfaces';
 
 import { AppSessionService } from './modules/app-session/app-session.service';
 import { AppConfigService } from './modules/app-config/app-config.service';
+import { SocketIoAdapter } from './modules/socket/socket-io.adapter';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -30,10 +32,17 @@ async function bootstrap() {
     sessionOptions.store = await AppSessionService.startSessionStore(config);
   }
 
-  app.use(session(sessionOptions));
+  const middlewares: RequestHandler[] = [
+    session(sessionOptions) as RequestHandler,
+    passport.initialize() as RequestHandler,
+    passport.session() as RequestHandler,
+  ];
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+  app.useWebSocketAdapter(
+    new SocketIoAdapter(app, appConfigService.get('webappUrl'), middlewares),
+  );
+
+  middlewares.forEach((middleware) => app.use(middleware));
 
   await app.listen(3000);
 }
