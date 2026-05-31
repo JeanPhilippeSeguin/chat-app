@@ -1,6 +1,7 @@
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -9,6 +10,7 @@ import {
 import { Logger, UseGuards } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { IncomingMessage } from 'http';
+import { OnEvent } from '@nestjs/event-emitter';
 
 import { CreateChannelMessageDto } from './inputs/channel-message.input';
 import { ChannelMessageService } from './channel-message.service';
@@ -18,8 +20,10 @@ import { AppAuthGuard } from '../auth/auth.guard';
 @WebSocketGateway({
   namespace: 'api/channel-message',
 })
-export class ChannelMessageGateway {
+export class ChannelMessageGateway implements OnGatewayDisconnect {
   private readonly logger: Logger = new Logger(ChannelMessageGateway.name);
+  private USER_SOCKET_MAP = new Map<string, Set<string>>();
+
   constructor(private readonly channelMessageService: ChannelMessageService) {}
 
   @WebSocketServer()
@@ -28,9 +32,21 @@ export class ChannelMessageGateway {
   @SubscribeMessage('messages')
   @UseGuards(AppAuthGuard, ChannelMemberGuard)
   async getChannelMessageList(@ConnectedSocket() client: Socket) {
-    const channelUUID = client.handshake.query.channelUUID as string;
+    const request = client.request as IncomingMessage & { user?: Express.User };
 
+    const channelUUID = client.handshake.query.channelUUID as string;
+    const userUUID = request?.user?.uuid;
     try {
+      if (!userUUID) {
+        throw new Error('invalid_client_user');
+      }
+
+      if (!this.USER_SOCKET_MAP.has(userUUID)) {
+        this.USER_SOCKET_MAP.set(userUUID, new Set());
+      }
+
+      this.USER_SOCKET_MAP.get(userUUID)!.add(client.id);
+
       await client.join(channelUUID);
 
       const channelMessageList =
@@ -82,5 +98,33 @@ export class ChannelMessageGateway {
       this.logger.error(exception);
       throw new WsException('failed to create channel message');
     }
+  }
+
+  handleDisconnect(client: Socket) {
+    const request = client.request as IncomingMessage & { user?: Express.User };
+    const userUUID = request.user?.uuid;
+    console.log('disconnect');
+    if (!userUUID) {
+      return;
+    }
+
+    this.USER_SOCKET_MAP.get(userUUID)?.delete(client.id);
+  }
+
+  @OnEvent('channelMessage.kicked')
+  onUserChannelMessageKick({
+    channelId,
+    userId,
+  }: {
+    channelId: string;
+    userId: string;
+  }) {
+    const userSocketIds = this.USER_SOCKET_MAP.get(userId);
+
+    if (!userSocketIds?.size) {
+      return;
+    }
+
+    this.server.in(Array.from(userSocketIds)).socketsLeave(channelId);
   }
 }

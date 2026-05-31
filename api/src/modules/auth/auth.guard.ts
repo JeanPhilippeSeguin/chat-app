@@ -22,20 +22,14 @@ export class GoogleAuthGuard extends AuthGuard('google') {
 export class AppAuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     let request: Request | null = null;
-    let isAuthenticated = false;
 
     if (context.getType() === 'ws') {
       const client = context.switchToWs().getClient<Socket>();
       request = client.request as Request;
-
-      isAuthenticated = request && isUUID(request?.user?.uuid);
     } else {
       request = context.switchToHttp().getRequest<Request>();
-
-      isAuthenticated =
-        request && isUUID(request?.user?.uuid) && request.isAuthenticated();
     }
 
-    return isAuthenticated;
+    return request && isUUID(request?.user?.uuid) && request.isAuthenticated();
   }
 }
